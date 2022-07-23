@@ -1,6 +1,6 @@
 import express from "express"
 import { getCategories, postCategory } from "../controllers/categoriesController.js"
-import { postCategoryMiddleware } from '../middlewares/categoriesMiddleware.js';
+import { postCategoryMiddleware } from "../middlewares/categoriesMiddleware.js"
 
 const categoriesRouter = express.Router()
 

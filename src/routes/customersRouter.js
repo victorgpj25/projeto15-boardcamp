@@ -1,6 +1,6 @@
 import express from "express"
 import { getCustomers, getCustomersById, postCustomer, updateCustomer } from "../controllers/customersController.js"
-import { getCustomersByIdMiddleware, postCustomerMiddleware, updateCustomerMiddleware } from '../middlewares/customersMiddleware.js';
+import { getCustomersByIdMiddleware, postCustomerMiddleware, updateCustomerMiddleware } from "../middlewares/customersMiddleware.js"
 
 const customersRouter = express.Router()
 

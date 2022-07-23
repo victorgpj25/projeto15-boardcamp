@@ -1,6 +1,6 @@
 import express from "express"
 import { getRentals, postRental, returnRental, deleteRental } from "../controllers/rentalsController.js"
-import { postRentalMiddleware, returnRentalMiddleware, deleteRentalMiddleware } from '../middlewares/rentalsMiddleware.js';
+import { postRentalMiddleware, returnRentalMiddleware, deleteRentalMiddleware } from "../middlewares/rentalsMiddleware.js"
 
 const rentalsRouter = express.Router()
 
