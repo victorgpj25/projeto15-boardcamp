@@ -9,7 +9,10 @@ export async function postCategoryMiddleware (req, res, next) {
         return res.sendStatus(400)
     }
 
-    const { rows: categoryAlreadyExists } = connection.query('SELECT * FROM categories WHERE name = $1', [name])
+    const { rows: categoryAlreadyExists } = await connection.query(
+        'SELECT * FROM categories WHERE LOWER(name) = LOWER($1)',
+        [name]
+    )
     if (categoryAlreadyExists.length) {
         return res.sendStatus(409)
     }

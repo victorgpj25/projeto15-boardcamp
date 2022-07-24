@@ -1,10 +1,17 @@
 import connection from "../database/postgres.js"
 import { generalCustomerSchema } from "../schemas/customersSchema.js"
 
-export async function getCustomersByIdMiddleware (req, res, next) {
+export async function getCustomerByIdMiddleware (req, res, next) {
     const { id } = req.params
 
-    const { rows: customerExists } = connection.query('SELECT * FROM customers WHERE id = $1', [id])
+    if (!/^[1-9][0-9]*$/.test(id)) {
+        return res.sendStatus(400)
+    }
+
+    const { rows: customerExists } = await connection.query(
+        'SELECT * FROM customers WHERE id = $1',
+        [id]
+    )
     if (!customerExists.length) {
         return res.sendStatus(404)
     }
@@ -17,10 +24,14 @@ export async function postCustomerMiddleware (req, res, next) {
 
     const validation = generalCustomerSchema.validate(req.body)
     if (validation.error) {
+        console.log(validation.error.details)
         return res.sendStatus(400)
     }
 
-    const { rows: cpfAlreadyExists } = connection.query('SELECT * FROM customers WHERE cpf = $1', [cpf])
+    const { rows: cpfAlreadyExists } = await connection.query(
+        'SELECT * FROM customers WHERE cpf = $1',
+        [cpf]
+    )
     if (cpfAlreadyExists.length) {
         return res.sendStatus(409)
     }
@@ -37,7 +48,10 @@ export async function updateCustomerMiddleware (req, res, next) {
         return res.sendStatus(400)
     }
 
-    const { rows: cpfAlreadyExists } = connection.query('SELECT * FROM customers WHERE (cpf = $1 AND id <> $2)', [cpf, id])
+    const { rows: cpfAlreadyExists } = await connection.query(
+        'SELECT * FROM customers WHERE (cpf = $1 AND id <> $2)',
+        [cpf, id]
+    )
     if (cpfAlreadyExists.length) {
         return res.sendStatus(409)
     }
